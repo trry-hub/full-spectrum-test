@@ -1,3 +1,19 @@
+---
+name: full-spectrum-test
+description: >-
+  全维度质量保障 Skill。测试规划 → 自适应执行 → 多维度报告。
+  适用于任何数字产品的测试：Web 应用（Playwright 浏览器自动化）、API 服务（HTTP 接口测试）、移动 App、桌面应用等。
+  覆盖功能正确性、UI/视觉、交互体验、易用性、接口/数据、稳定性/性能六大维度。
+  当用户需要对某个应用/接口/产品进行系统性测试、质量评估、或生成测试报告时使用。
+  包含完整的测试计划生成、自动化测试执行、以及结构化多维度测试报告输出。
+license: MIT
+compatibility: oh-my-openagent 或兼容 Claude Code 插件的 agent 产品
+metadata:
+  author: trry-hub
+  version: "1.0.0"
+  repository: https://github.com/trry-hub/full-spectrum-test
+---
+
 # Full-Spectrum Test — 全维度质量保障
 
 ## 概述

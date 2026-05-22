@@ -4,6 +4,10 @@
   "description": "全维度质量保障 Skill — 执行型 QA 工作流（Web/App/API/桌面/扩展）。覆盖产品合理性、计划、执行、证据、分级、复测和发布建议。",
   "author": "trry-hub",
   "license": "MIT",
+  "scripts": {
+    "package": "node scripts/package-plugin.mjs",
+    "changelog": "node scripts/generate-changelog.mjs"
+  },
   "keywords": [
     "testing",
     "e2e",

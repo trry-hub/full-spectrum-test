@@ -100,6 +100,26 @@ Step 4: 报告 → 汇总问题分级、阻塞项、发布建议和复测清单
 | 移动 App | API 测试 + 可用工具 |
 | 混合型 | 组合多种工具 |
 
+## 发布与变更日志
+
+本仓库通过 git tag 发布版本：
+
+```bash
+npm run changelog -- --version v1.1.0 --changelog CHANGELOG.md --release-notes dist/release-notes.md --docs-dir dist/docs
+npm run package
+git tag v1.1.0
+git push origin main v1.1.0
+```
+
+推送 `v*` tag 后，`.github/workflows/release.yml` 会自动：
+
+- 根据历史 git commit 生成 release notes。
+- 打包 `dist/full-spectrum-test-<version>.zip`。
+- 创建或更新 GitHub Release 并上传 zip。
+- 将变更日志发布到 `docs` 分支。
+
+`CHANGELOG.md` 是主分支的变更日志入口，`docs` 分支用于承接自动生成的发布文档。
+
 ## License
 
 MIT

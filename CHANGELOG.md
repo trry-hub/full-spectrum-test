@@ -4,7 +4,7 @@ All notable changes are generated from git commit history.
 
 ## v1.1.0 - 2026-05-22
 
-Range: `initial history..HEAD`
+Range: `initial history..v1.1.0`
 
 ### 新增
 

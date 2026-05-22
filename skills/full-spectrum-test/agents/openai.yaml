@@ -1,0 +1,8 @@
+interface:
+  display_name: "Full-Spectrum Test"
+  short_description: "系统化测试、证据记录与质量报告"
+  brand_color: "#2563EB"
+  default_prompt: "Use $full-spectrum-test to plan, execute, and report a full QA pass for this target."
+
+policy:
+  allow_implicit_invocation: true

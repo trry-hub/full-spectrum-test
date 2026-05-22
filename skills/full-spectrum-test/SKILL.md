@@ -1,208 +1,119 @@
 ---
 name: full-spectrum-test
 description: >-
-  全维度质量保障 Skill。测试规划 → 自适应执行 → 多维度报告。
-  适用于任何数字产品的测试：Web 应用（Playwright 浏览器自动化）、API 服务（HTTP 接口测试）、移动 App、桌面应用等。
-  覆盖功能正确性、UI/视觉、交互体验、易用性、接口/数据、稳定性/性能六大维度。
-  当用户需要对某个应用/接口/产品进行系统性测试、质量评估、或生成测试报告时使用。
-  包含完整的测试计划生成、自动化测试执行、以及结构化多维度测试报告输出。
-license: MIT
-compatibility: oh-my-openagent 或兼容 Claude Code 插件的 agent 产品
-metadata:
-  author: trry-hub
-  version: "1.0.0"
-  repository: https://github.com/trry-hub/full-spectrum-test
+  全维度质量保障工作流。Use when the user asks to test, QA, audit, validate,
+  regression-test, evaluate release readiness, or generate a quality report for
+  Web apps, APIs, mobile apps, desktop apps, VS Code extensions/webviews, or
+  hybrid products. Guides scope analysis, coverage planning, adaptive execution
+  with available tools, evidence capture, severity grading, retesting, and a
+  structured multidimensional report across functionality, product rationale,
+  UI/visual, interaction, usability/accessibility, API/data,
+  stability/performance.
 ---
 
-# Full-Spectrum Test — 全维度质量保障
+# Full-Spectrum Test
 
-## 概述
+Use this skill to run a real QA pass, not just write a checklist.
 
-本 Skill 提供了一套 **目标无关** 的完整测试工作流，可应用于 **Web 应用、移动 App、API 服务、桌面应用** 等任何数字产品。
+## Operating Rules
 
-核心能力：**测试规划 → 自适应执行 → 多维度报告**，覆盖功能、UI/UX、交互、性能、接口、易用性等各个维度。
+1. Identify the real target and environment first: URL, app/window, API base URL, repo branch, credentials state, test data, and available automation tools.
+2. Do not stop at a plan unless the user explicitly asks for planning only. Execute every feasible P0/P1 case and mark anything not executed as `BLOCKED`, `SKIPPED`, or `NOT RUN` with a concrete reason.
+3. Prefer the highest-fidelity surface available: real browser/app/API/session before static code inspection; development host before packaged artifact only when testing unreleased code; packaged/installed artifact when validating release behavior.
+4. Preserve safety. Do not perform destructive production actions, payments, data deletion, mass messaging, or credential changes without explicit approval.
+5. Capture evidence for every failure and for representative P0/P1 passes. Evidence can be screenshot path, DOM snapshot, request/response excerpt, console/log line, command output, or reproduction steps.
+6. After fixes, run a focused retest: original failing case, one adjacent regression case, and one negative/edge case when feasible.
 
-## 工作阶段
+## Phase 0: Scope And Risk
 
-### Phase 1: 测试分析与规划
+Before planning, write a short scope block:
 
-**目标**: 分析被测目标，输出结构化的测试计划。
-
-**输入**: 
-- 被测对象描述（URL / App 名称 / API 文档 / 功能列表）
-- 测试范围与重点
-- 可用的测试工具
-
-**输出**: 测试计划，每个用例标注：
-- 维度分类 | 优先级(P0/P1/P2) | 前置条件 | 测试步骤 | 预期结果
-
-#### 根据目标类型选择测试维度
-
-| 目标类型 | 适用维度 | 主要工具 |
-|---------|---------|---------|
-| **Web 应用** | 功能、UI视觉、布局、交互、易用性、API、响应式、兼容性 | Playwright（浏览器自动化） |
-| **移动 App** | 功能、UI视觉、交互、易用性、API、性能、中断测试 | API 测试 + 可用工具 |
-| **API 服务** | 功能正确性、参数校验、鉴权、异常场景、性能、数据一致性 | HTTP 请求工具 |
-| **桌面应用** | 功能、UI、交互、易用性、跨平台 | 可用自动化工具 |
-| **混合型** | 覆盖以上所有相关维度 | 组合多种工具 |
-
-#### 六大核心测试维度
-
-```
-1. 功能正确性   — 核心业务流程、边界条件、异常场景
-2. UI/视觉      — 样式、色彩、字体、图标、布局、品牌一致性
-3. 交互体验     — 响应反馈、动画、状态变化、手势/点击
-4. 易用性       — 导航清晰度、错误提示、学习成本、无障碍
-5. 接口/数据    — API 请求响应、数据结构、状态码、鉴权、数据流
-6. 稳定性/性能  — 加载速度、并发、资源占用、异常恢复
+```text
+Target:
+Environment:
+User goal / product intent:
+User journey / API surface:
+In scope:
+Out of scope:
+Available tools:
+Assumptions:
+Risk notes:
 ```
 
-### Phase 2: 自动化测试执行
+If information is missing but discoverable, inspect it. If it is not discoverable, proceed with a stated assumption unless that would be risky.
 
-**目标**: 根据测试计划逐用例执行，记录结果与证据。
+## Phase 1: Coverage Plan
 
-**通用原则**：
-- 每个测试用例独立执行
-- 关键步骤记录证据（截图/响应数据/日志）
-- 记录实际结果 vs 预期结果
-- 异常时捕获错误详情
+Create a test matrix with stable IDs:
 
-#### 2.1 针对 Web 应用
-
-使用 **Playwright** 进行浏览器自动化：
-
-- **功能测试**: 导航 → 操作 → 验证页面状态/内容变化 → 截图
-- **UI 视觉**: 截图 + 快照 → 检查样式、色彩、品牌一致性
-- **布局测试**: 多分辨率下检查对齐、间距、栅格、响应式
-- **交互测试**: 点击、悬停、表单、弹窗、动画、拖拽
-- **易用性**: Tab 焦点、错误提示、空状态、加载态
-- **API**: 捕获网络请求 → 验证状态码/数据/鉴权
-- **控制台**: 检查 console error/warning
-
-#### 2.2 针对 API 服务
-
-使用 **HTTP 请求工具 (fetch/webfetch)** 进行接口测试：
-
-- **功能正确性**: 正常请求 → 验证状态码 + 响应结构 + 数据内容
-- **参数校验**: 缺失参数、类型错误、边界值
-- **鉴权测试**: 无 token、过期 token、错误权限
-- **异常场景**: 404、500、超时、幂等性
-- **数据一致性**: 创建/查询/更新/删除后的数据校验
-
-#### 2.3 针对移动 App
-
-结合可用工具进行测试：
-
-- **API 层**: 验证 App 后端接口（同 API 测试）
-- **数据流**: 请求/响应数据完整性
-- **离线/中断**: 网络断开恢复后的行为
-- **推送/通知**: 消息触达与点击
-
-#### 2.4 通用测试方法
-
-所有目标类型通用的测试方法：
-
-- **功能流程**: 正向流程 + 异常分支 + 边界条件
-- **数据验证**: 输入输出一致性
-- **状态管理**: 各种状态（空/加载/正常/错误/超长）
-- **权限**: 不同角色/权限下的行为差异
-
-### Phase 3: 测试报告生成
-
-**目标**: 汇总测试结果，生成结构化的多维度测试报告。
-
-**报告模板**：
-
-```
-# 测试报告: [项目/目标名称]
-测试日期: [日期] | 测试环境: [环境]
-
-## 1. 测试概览
-- 总用例: XX | 通过: XX | 失败: XX | 阻塞: XX
-- 整体通过率: XX%
-- 各维度通过率: 功能 XX% | UI XX% | 交互 XX% | ...
-
-## 2. 各维度详细结果
-
-### 2.1 功能测试
-| ID | 用例 | 优先级 | 结果 | 证据 | 备注 |
-|----|------|--------|------|------|------|
-
-### 2.2 UI/视觉测试
-| ID | 检查点 | 优先级 | 结果 | 截图 | 问题描述 |
-
-### 2.3 交互测试
-| ID | 检查点 | 优先级 | 结果 | 证据 | 问题描述 |
-
-### 2.4 易用性测试
-| ID | 检查点 | 优先级 | 结果 | 建议 |
-
-### 2.5 接口/数据测试
-| ID | 接口/用例 | 优先级 | 结果 | 请求/响应 | 备注 |
-
-### 2.6 稳定性/性能
-| ID | 检查点 | 优先级 | 结果 | 数据 | 备注 |
-
-## 3. 问题汇总
-### P0 - 严重 (阻塞发布)
-- ...
-
-### P1 - 中等 (建议修复)
-- ...
-
-### P2 - 优化建议
-- ...
-
-## 4. 总体评价
-[总结性评价，建议下一步行动]
+```text
+ID | Dimension | Priority | Scenario | Preconditions | Steps | Expected Result | Evidence Needed
 ```
 
-## 工具选择指南
+Use these dimensions:
 
-| 测试需求 | 推荐工具/方法 |
-|---------|-------------|
-| Web 浏览器自动化 | Playwright (browser_navigate/click/type/screenshot) |
-| Web 页面分析 | Playwright snapshot (browser_snapshot) |
-| 网络请求监控 | Playwright (browser_network_requests) |
-| 控制台日志 | Playwright (browser_console_messages) |
-| HTTP API 测试 | fetch / webfetch 工具 |
-| 多标签页/弹窗 | Playwright (browser_tabs, browser_handle_dialog) |
-| 文件操作 | Playwright (browser_file_upload) |
-| 代码执行评估 | Playwright (browser_evaluate) |
-| 文档/协议分析 | librarian / explore 子代理 |
+- `FUNC`: functionality, happy paths, edge cases, error paths, permissions.
+- `PROD`: product rationale, information architecture, feature necessity, defaults, control hierarchy, user mental model.
+- `UI`: visual style, layout, text fit, responsive behavior, theming, icon clarity.
+- `IX`: interaction, feedback, keyboard/mouse/touch behavior, loading/stop/cancel states.
+- `UX`: ease of use, empty/error states, copy clarity, accessibility basics.
+- `API`: request/response shape, auth, status codes, data consistency, network failure.
+- `PERF`: loading speed, responsiveness, resource/process cleanup, recovery.
 
-## 使用方式
+Minimum coverage guidance:
 
-### 加载 Skill
+- Broad product or release QA: usually plan 25-60 cases. Do not use fewer than 20 unless the target is genuinely narrow. Include product-rationale checks for primary screens and core flows.
+- Single feature QA: usually plan 8-18 cases, including happy path, error path, empty/loading state, one product-rationale case, and one regression-adjacent path.
+- Bug regression: test the original repro, the fixed path, at least one adjacent workflow, and one failure/cancel/edge path.
+- API-only scope: include success, auth, missing/invalid params, boundary values, idempotency or data consistency, and timeout/error behavior.
 
-```python
-skill(name="full-spectrum-test")
-```
+Prioritize:
 
-### 使用示例
+- `P0`: release-blocking, data loss, security/privacy, broken core path, unbounded process/resource leak.
+- `P1`: important regression, confusing UX, unreasonable default/control placement, broken secondary path, missing feedback, recoverable data/API issue.
+- `P2`: polish, wording, minor layout, non-blocking enhancement.
 
-```
-测试 https://example.com 的登录注册流程，重点覆盖功能和易用性
-```
+## Phase 2: Adaptive Execution
 
-```
-测试 /api/v1/users 这个接口，覆盖增删改查和鉴权场景
-```
+Execute by target type and load only the relevant reference:
 
-```
-分析这个 App 的 API 文档，规划后端接口测试方案
-```
+- Web app, webview, or browser UI: read `references/web.md`.
+- API service or backend contract: read `references/api.md`.
+- Mobile app, desktop app, or IDE extension UI: read `references/mobile-desktop.md`.
+- When writing the final report: read `references/report-template.md`.
 
-## 通用流程模板
+Execution requirements:
 
-在任何目标上执行测试时，遵循此模板：
+1. Run P0/P1 cases first.
+2. Record actual result immediately after each case.
+3. Keep logs concise but reproducible. Do not paste full copyrighted pages or huge responses; summarize and attach small excerpts.
+4. For visual/UI issues, include viewport/window size and theme when relevant.
+5. For process/performance issues, compare before/after process lists, network calls, timings, or resource indicators when available.
+6. If automation is blocked, switch to the best available method and mark the limitation explicitly.
 
-```
-测试目标: [描述]
-测试范围: [功能模块/接口列表]
-重点维度: [功能/UI/交互/易用性/接口/性能]
+## Phase 3: Report
 
-Step 1: 分析 → 输出测试计划（用例清单）
-Step 2: 执行 → 逐用例测试，记录结果
-Step 3: 报告 → 汇总生成多维度报告
-```
+The final answer or artifact must include:
+
+- Overall verdict: `PASS`, `PASS WITH RISKS`, `FAIL`, or `BLOCKED`.
+- Scope and environment.
+- Counts by status and dimension.
+- Executed case table.
+- Issue list grouped by P0/P1/P2, with reproduction and evidence.
+- Unexecuted/blocked cases.
+- Retest notes when fixes were applied.
+- Release recommendation and next actions.
+
+Use `references/report-template.md` for the exact report structure.
+
+## Quality Bar
+
+A good run should let another engineer reproduce the important results without asking:
+
+- What was tested.
+- What was not tested.
+- What failed and why it matters.
+- Whether the product choices support the user's real task.
+- Which evidence supports the finding.
+- What should be fixed first.
+- What should be retested after the fix.

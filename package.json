@@ -1,7 +1,7 @@
 {
   "name": "full-spectrum-test",
-  "version": "1.0.0",
-  "description": "全维度质量保障 Skill — 目标无关的完整测试工作流（Web/App/API）。测试规划→自适应执行→多维度报告，覆盖功能、UI/UX、交互、性能、接口、易用性。",
+  "version": "1.1.0",
+  "description": "全维度质量保障 Skill — 执行型 QA 工作流（Web/App/API/桌面/扩展）。覆盖产品合理性、计划、执行、证据、分级、复测和发布建议。",
   "author": "trry-hub",
   "license": "MIT",
   "keywords": [
@@ -11,6 +11,8 @@
     "playwright",
     "automation",
     "quality-assurance",
+    "release-readiness",
+    "regression-test",
     "test-report",
     "oh-my-opencode",
     "opencode"

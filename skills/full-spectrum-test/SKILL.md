@@ -22,7 +22,8 @@ Use this skill to run a real QA pass, not just write a checklist.
 3. Prefer the highest-fidelity surface available: real browser/app/API/session before static code inspection; development host before packaged artifact only when testing unreleased code; packaged/installed artifact when validating release behavior.
 4. Preserve safety. Do not perform destructive production actions, payments, data deletion, mass messaging, or credential changes without explicit approval.
 5. Capture evidence for every failure and for representative P0/P1 passes. Evidence can be screenshot path, DOM snapshot, request/response excerpt, console/log line, command output, or reproduction steps.
-6. After fixes, run a focused retest: original failing case, one adjacent regression case, and one negative/edge case when feasible.
+6. Release QA must include at least one real user end-to-end closed loop, executed on the highest-fidelity available surface. If this cannot be executed, record it as `P0 BLOCKED` or `P1 BLOCKED` and state exactly what is missing: account, permission, test data, backend interface, environment, or third-party dependency.
+7. After fixes, run a focused retest: original failing case, one adjacent regression case, and one negative/edge case when feasible.
 
 ## Phase 0: Scope And Risk
 
@@ -63,6 +64,7 @@ Use these dimensions:
 Minimum coverage guidance:
 
 - Broad product or release QA: usually plan 25-60 cases. Do not use fewer than 20 unless the target is genuinely narrow. Include product-rationale checks for primary screens and core flows.
+- Release QA: include one `P0` or `P1` real user closed-loop case that starts from the user's entry point and reaches the intended business outcome. Mark it blocked with the missing prerequisite if it cannot be run.
 - Single feature QA: usually plan 8-18 cases, including happy path, error path, empty/loading state, one product-rationale case, and one regression-adjacent path.
 - Bug regression: test the original repro, the fixed path, at least one adjacent workflow, and one failure/cancel/edge path.
 - API-only scope: include success, auth, missing/invalid params, boundary values, idempotency or data consistency, and timeout/error behavior.
